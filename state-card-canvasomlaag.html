@@ -1,0 +1,54 @@
+<dom-module id="state-card-canvasomlaag">
+  <template>
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      :host {
+        line-height: 1.5;
+      }
+      paper-button {
+        min-width: 29px;
+        height: 30px;
+        background-color:#f3f3f3
+      }
+    </style>
+
+<div class='horizontal justified layout'>
+  <state-info state-obj="[[stateObj]]"></state-info>
+  <paper-button-group>
+      <paper-button on-click="btnlow">L</svg></paper-button>
+      <paper-button on-click="btnmed">R</svg></paper-button>
+      <paper-button on-click="btnhigh">O</svg></paper-button>
+  </paper-button-group>
+</div>
+</template>
+</dom-module>
+<script>
+        Polymer({
+          is: 'state-card-canvasomlaag',
+          properties: {
+            hass: {
+              type: Object,
+            },
+            stateObj: {
+              type: Object,
+            },
+          },
+
+          btnlow: function (ev) {
+            this.setVol('canvaslinks', ev);
+          },
+          btnmed: function (ev) {
+            this.setVol('canvasrechts', ev);
+          },
+          btnhigh: function (ev) {
+            this.setVol('canvasdown', ev);
+          },
+
+          setVol(vol,ev) {
+            var serviceData = {entity_id:('scene.'+vol)};
+            this.hass.callService('scene', 'turn_on', serviceData);
+            ev.stopPropagation();
+  },
+
+});
+</script>
